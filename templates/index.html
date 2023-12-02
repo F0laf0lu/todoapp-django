@@ -1,0 +1,71 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+    <link rel="stylesheet" href={% static "css/styles.css" %}>
+</head>
+
+<body>
+
+    <div id="todo-container">
+        <h1>Todo App</h1>
+        <h3>
+        <a href="{% url 'home' current_date=previous_date|date:'Y-m-d' %}">
+            <button id="date-btn" type="button">Prev</button>
+        </a>
+
+        {{current_date}}
+
+        <a href="{% url 'home' current_date=next_date|date:'Y-m-d' %}">
+            <button id="date-btn" type="button">Next</button>
+        </a>
+            <h3>
+        <form action="{% url 'add-task' current_date=current_date %}" method = "POST" id="task-form">
+            <input type="text" id="task-input" name="task" placeholder="Enter task..." required>
+            <input type="datetime-local" name="due-date" id="due-date-input">
+            <button type="submit" id="add-btn">Add</button>
+        </form>
+
+        {% for task in tasks %}
+        <ul id="task-list">
+            <li class="task-item">
+            <input type="checkbox" id="completeCheckbox{{ task.id }}" {% if task.completed %}checked{% endif %}>
+
+            <span>
+                {{task}} <br>
+                <small>{{ task.created_at|date }}</small>
+                <small>{{ task.created_at|time }}</small>
+            </span>
+            <span>{{task.due_date|date}} <br>
+                <small>{{ task.due_date|time }}</small>
+            </span>
+            <a href="{% url 'delete-task' task.id current_date %}">
+                <button class='delete-btn' type="submit">Delete</button>
+            </a>
+            </li>
+        </ul>
+
+    <script>
+        document.getElementById('completeCheckbox{{ task.id }}').addEventListener('change', function() {
+            // Send an AJAX request to update the complete status
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', "{% url 'mark_task' task.id %}", true);
+            xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function() {
+                // Handle the response if needed
+                console.log(xhr.responseText);
+            };
+            xhr.send('complete=' + this.checked);
+        });
+    </script>
+    {% endfor %}
+    </div>
+</body>
+
+</html>

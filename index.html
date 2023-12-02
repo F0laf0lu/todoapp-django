@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+    <link rel="stylesheet" href={% static "css/styles.css" %}>
+</head>
+
+<body>
+
+    <div id="todo-container">
+        <h2>Todo App</h2>
+
+        <form id="task-form">
+            <input type="text" id="task-input" placeholder="Enter task..." required>
+            <input type="date" id="due-date-input">
+            <button type="button" id="add-btn">Add</button>
+        </form>
+
+        <ul id="task-list"></ul>
+    </div>
+
+    <!-- <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const taskForm = document.getElementById('task-form');
+            const taskInput = document.getElementById('task-input');
+            const dueDateInput = document.getElementById('due-date-input');
+            const addBtn = document.getElementById('add-btn');
+            const taskList = document.getElementById('task-list');
+
+            addBtn.addEventListener('click', function () {
+                const taskText = taskInput.value.trim();
+                const dueDate = dueDateInput.value;
+
+                if (taskText !== '') {
+                    addTask(taskText, dueDate);
+                    taskInput.value = '';
+                    dueDateInput.value = '';
+                }
+            });
+
+            function addTask(taskText, dueDate) {
+                const taskItem = document.createElement('li');
+                taskItem.className = 'task-item';
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+
+                const taskTextSpan = document.createElement('span');
+                taskTextSpan.textContent = taskText;
+
+                const dueDateSpan = document.createElement('span');
+                dueDateSpan.textContent = dueDate;
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'delete-btn';
+                deleteBtn.textContent = 'Delete';
+                deleteBtn.addEventListener('click', function () {
+                    taskList.removeChild(taskItem);
+                });
+
+                taskItem.appendChild(checkbox);
+                taskItem.appendChild(taskTextSpan);
+                taskItem.appendChild(dueDateSpan);
+                taskItem.appendChild(deleteBtn);
+
+                taskList.appendChild(taskItem);
+            }
+        });
+    </script> -->
+
+</body>
+
+</html>
